@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTROCARE | Astronaut Health Companion</title>
+<style>
+:root{--bg:#07111f;--panel:#101f33;--panel2:#142943;--line:#263d59;--text:#edf5ff;--muted:#9bb0c9;--cyan:#54d8e8;--blue:#5794ff;--green:#59d69a;--amber:#ffca68;--red:#ff7b85}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#102b4b 0,#07111f 42%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#1d8fb8,#345be0);display:grid;place-items:center;font-size:24px}.brand h1{font-size:20px;letter-spacing:2px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px;letter-spacing:1px}.tag{border:1px solid #32627a;color:var(--cyan);border-radius:30px;padding:7px 12px;font-size:12px}
+.hero{padding:25px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(110deg,#122a46,#0e1c30);margin-bottom:18px}.eyebrow{color:var(--cyan);font-size:11px;font-weight:700;letter-spacing:2px}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.15;margin:8px 0}.hero p{color:var(--muted);max-width:720px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}.card{background:rgba(16,31,51,.94);border:1px solid var(--line);border-radius:16px;padding:17px;min-width:0}.metric-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}.metric-icon{font-size:20px}.metric{font-size:30px;font-weight:750;margin:10px 0 2px}.unit{font-size:12px;color:var(--muted)}.status{font-size:11px;color:var(--green)}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:15px}.section-title{font-size:16px;margin:0 0 13px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}input,select,textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid #34506f;background:#09182a;color:var(--text);font:inherit}input:focus,select:focus,textarea:focus{outline:2px solid #398da9}button{border:0;border-radius:10px;background:linear-gradient(100deg,#1e9db5,#456eea);color:white;padding:11px 15px;font-weight:700;cursor:pointer;margin-top:13px}button:hover{filter:brightness(1.12)}.secondary{background:#203a57;border:1px solid #3b5b7d}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.alert{padding:12px;border-radius:12px;background:#132c39;border:1px solid #28566a;color:#c7f6fb;margin-top:12px;font-size:13px}.warning{background:#392c19;border-color:#70552a;color:#ffe0a4}.danger{background:#3b2028;border-color:#75404a;color:#ffc2c7}
+canvas{width:100%;height:190px;display:block}.task{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0}.task input{width:auto;margin-top:4px;accent-color:var(--cyan)}.task label{margin:0;color:var(--text);font-size:13px}.points{color:var(--cyan);font-weight:700}.bodyparts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.bodyparts button{margin:0;background:#183451;border:1px solid #315678;font-size:12px}.bodyparts button.active{background:#176b80;border-color:var(--cyan)}.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 5px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}@media(max-width:480px){.wrap{padding:14px}.top{align-items:flex-start}.tag{font-size:10px}.grid{gap:9px}.card{padding:13px}.metric{font-size:25px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+ <div class="brand"><div class="logo">✦</div><div><h1>ASTROCARE</h1><p>ASTRONAUT HEALTH COMPANION</p></div></div>
+ <div class="tag">MISSION DEMO · OFFLINE READY</div>
+</header>
+<section class="hero">
+ <div class="eyebrow">CREW WELLNESS / DAILY CHECK</div>
+ <h2>Your health. Your mission.</h2>
+ <p>A simple self-assessment workspace for tracking health indicators, noticing changes over time, and reviewing practical health guidance during long-duration missions.</p>
+</section>
+<div class="grid" id="metrics">
+ <article class="card"><div class="metric-head"><span>Heart rate</span><span class="metric-icon">♡</span></div><div class="metric" id="mHeart">72</div><div class="unit">beats per minute · demo value</div><div class="status">● Sample data</div></article>
+ <article class="card"><div class="metric-head"><span>Blood pressure</span><span class="metric-icon">⌁</span></div><div class="metric" id="mBP">118/76</div><div class="unit">mmHg · demo value</div><div class="status">● Sample data</div></article>
+ <article class="card"><div class="metric-head"><span>Blood glucose</span><span class="metric-icon">◉</span></div><div class="metric" id="mGlucose">92</div><div class="unit">mg/dL · demo value</div><div class="status">● Sample data</div></article>
+ <article class="card"><div class="metric-head"><span>Body temperature</span><span class="metric-icon">♨</span></div><div class="metric" id="mTemp">36.8</div><div class="unit">°C · demo value</div><div class="status">● Sample data</div></article>
+</div>
+<div class="layout">
+ <main>
+  <section class="card">
+   <h3 class="section-title">Daily health check-in</h3>
+   <p class="small">Enter a measurement from an appropriate device or record. Demo values are provided initially; this page does not measure your body.</p>
+   <div class="row">
+    <div><label for="heart">Heart rate (bpm)</label><input id="heart" type="number" min="25" max="240" value="72"></div>
+    <div><label for="bp">Blood pressure (systolic/diastolic)</label><input id="bp" type="text" value="118/76" placeholder="e.g. 118/76"></div>
+    <div><label for="glucose">Blood glucose (mg/dL)</label><input id="glucose" type="number" min="20" max="600" value="92"></div>
+    <div><label for="temp">Body temperature (°C)</label><input id="temp" type="number" min="30" max="45" step=".1" value="36.8"></div>
+    <div><label for="sleep">Sleep last 24h (hours)</label><input id="sleep" type="number" min="0" max="24" step=".5" value="7.5"></div>
+    <div><label for="mood">Mood today</label><select id="mood"><option>Good</option><option>Okay</option><option>Low</option><option>Anxious</option><option>Stressed</option></select></div>
+   </div>
+   <button id="save">Save daily check-in</button>
+   <div id="guidance" class="alert">Enter your readings and save to see a simple review. The guidance is educational, not a diagnosis.</div>
+  </section>
+  <section class="card" style="margin-top:15px">
+   <h3 class="section-title">Health trend · recent check-ins</h3>
+   <canvas id="chart" width="700" height="220" aria-label="Heart rate trend chart"></canvas>
+   <p class="small">Heart rate trend in beats per minute. Add check-ins to build your own history.</p>
+  </section>
+  <section class="card" style="margin-top:15px">
+   <h3 class="section-title">Explore your health</h3>
+   <p class="small">Choose a body system to learn why it matters during spaceflight.</p>
+   <div class="bodyparts">
+    <button data-part="heart" class="active">♥ Cardiovascular</button><button data-part="bones">▥ Bones & muscles</button><button data-part="immune">✧ Immune</button><button data-part="brain">◉ Brain & mood</button><button data-part="nutrition">◇ Nutrition</button><button data-part="sleep">☾ Sleep</button>
+   </div>
+   <div id="bodyInfo" class="alert"><b>Cardiovascular system</b><br>Fluid shifts and changes in physical activity during spaceflight can affect how the heart and blood vessels work. Crew members may track pulse, blood pressure, symptoms, and trends as directed by flight medical teams.</div>
+  </section>
+ </main>
+ <aside>
+  <section class="card">
+   <h3 class="section-title">Today's mission checklist</h3>
+   <p class="small">Complete healthy-habit tasks assigned by your mission team.</p>
+   <div id="tasks">
+    <div class="task"><input type="checkbox" id="t1"><label for="t1">Complete daily health check-in</label></div>
+    <div class="task"><input type="checkbox" id="t2"><label for="t2">Record sleep and mood</label></div>
+    <div class="task"><input type="checkbox" id="t3"><label for="t3">Review exercise plan approved by crew medical team</label></div>
+    <div class="task"><input type="checkbox" id="t4"><label for="t4">Review hydration and nutrition plan</label></div>
+   </div>
+   <p class="points">Mission points: <span id="points">0</span> / 40</p>
+  </section>
+  <section class="card" style="margin-top:15px">
+   <h3 class="section-title">Spaceflight health guide</h3>
+   <label for="topic">Choose a topic</label>
+   <select id="topic"><option value="radiation">Space radiation</option><option value="microgravity">Microgravity</option><option value="isolation">Isolation & confinement</option><option value="distance">Distance from Earth</option><option value="environment">Closed environment</option></select>
+   <div id="topicInfo" class="alert">Space radiation can affect cells and tissues. Mission plans use radiation monitoring, exposure limits, and operational procedures. Follow mission-specific guidance from radiation and medical specialists.</div>
+  </section>
+  <section class="card" style="margin-top:15px">
+   <h3 class="section-title">Mission report</h3>
+   <p class="small" id="report">No check-ins saved yet. Complete your first assessment to create a report.</p>
+   <button class="secondary" id="export">Export check-in data (CSV)</button>
+   <button class="secondary" id="reset">Reset demo data</button>
+  </section>
+ </aside>
+</div>
+<div class="footer">ASTROCARE · Student prototype for the NASA Space Apps Challenge · Uses manually entered / illustrative data only. Not a medical device and not a substitute for flight-surgeon guidance.</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const initial={heart:72,bp:"118/76",glucose:92,temp:36.8,sleep:7.5,mood:"Good"};
+let history=JSON.parse(localStorage.getItem("astrocare_history")||"[]");
+function current(){return {date:new Date().toISOString(),heart:Number($("heart").value),bp:$("bp").value.trim(),glucose:Number($("glucose").value),temp:Number($("temp").value),sleep:Number($("sleep").value),mood:$("mood").value}}
+function guidance(d){
+ let notes=[];
+ if(!Number.isFinite(d.heart)||d.heart<25||d.heart>240)notes.push("Check that the heart-rate entry and unit are correct.");
+ if(!Number.isFinite(d.glucose)||d.glucose<20||d.glucose>600)notes.push("Check the glucose entry and unit.");
+ if(!Number.isFinite(d.temp)||d.temp<30||d.temp>45)notes.push("Check the temperature entry and unit.");
+ if(d.sleep<0||d.sleep>24)notes.push("Check the sleep duration.");
+ if(d.mood==="Low"||d.mood==="Anxious"||d.mood==="Stressed")notes.push("Consider using the crew well-being resources and informing the appropriate crew support contact.");
+ if(!notes.length)notes.push("Entry recorded. Compare this result with your personal baseline and mission-specific reference guidance. A single value cannot establish health status.");
+ return notes.join(" ");
+}
+function render(){
+ let d=history.length?history[history.length-1]:initial;
+ $("mHeart").textContent=d.heart;$("mBP").textContent=d.bp;$("mGlucose").textContent=d.glucose;$("mTemp").textContent=d.temp;
+ $("report").textContent=history.length?`${history.length} check-in(s) saved. Latest mood: ${d.mood}. Latest sleep entry: ${d.sleep} hours. Review trends with your crew medical team.`:"No check-ins saved yet. Complete your first assessment to create a report.";
+ draw();
+}
+$("save").onclick=()=>{
+ let d=current();
+ if(!Number.isFinite(d.heart)||!Number.isFinite(d.glucose)||!Number.isFinite(d.temp)||!Number.isFinite(d.sleep)||!d.bp){$("guidance").className="alert warning";$("guidance").textContent="Please complete all fields with valid numbers before saving.";return}
+ history.push(d);localStorage.setItem("astrocare_history",JSON.stringify(history));
+ $("guidance").className="alert";$("guidance").textContent=guidance(d);render();
+};
+function draw(){
+ const c=$("chart"),ctx=c.getContext("2d"),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ ctx.strokeStyle="#29415e";ctx.lineWidth=1;
+ for(let i=0;i<5;i++){let y=18+i*43;ctx.beginPath();ctx.moveTo(42,y);ctx.lineTo(w-12,y);ctx.stroke()}
+ let vals=history.slice(-8).map(x=>x.heart);if(!vals.length)vals=[72,75,71,73];
+ let min=Math.min(50,...vals)-5,max=Math.max(100,...vals)+5;
+ ctx.fillStyle="#9bb0c9";ctx.font="12px system-ui";ctx.fillText("bpm",8,15);
+ ctx.strokeStyle="#54d8e8";ctx.lineWidth=3;ctx.beginPath();
+ vals.forEach((v,i)=>{let x=48+i*((w-75)/Math.max(1,vals.length-1)),y=18+(max-v)/(max-min)*(h-45);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+ ctx.stroke();vals.forEach((v,i)=>{let x=48+i*((w-75)/Math.max(1,vals.length-1)),y=18+(max-v)/(max-min)*(h-45);ctx.fillStyle="#54d8e8";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();ctx.fillStyle="#dceaff";ctx.fillText(v,x-8,y-10)});
+}
+const info={
+ heart:["Cardiovascular system","Fluid shifts and changes in physical activity during spaceflight can affect how the heart and blood vessels work. Crew members may track pulse, blood pressure, symptoms, and trends as directed by flight medical teams."],
+ bones:["Bones & muscles","Reduced mechanical loading in microgravity can contribute to bone and muscle changes. Mission countermeasures commonly include prescribed resistance and aerobic exercise, nutrition plans, and medical monitoring."],
+ immune:["Immune system","Spaceflight conditions can influence immune function. Health monitoring may include symptom logs and measurements selected by the flight medical team. Report new or worsening symptoms promptly."],
+ brain:["Brain & mood","Isolation, workload, disrupted routines, and sleep changes can affect mood, attention, and well-being. Regular check-ins and access to crew support are important."],
+ nutrition:["Nutrition","Adequate energy, fluids, and nutrients support health during missions. Record intake when requested and follow the mission dietitian or medical team's plan."],
+ sleep:["Sleep","Lighting, noise, schedules, and mission demands can affect sleep. Tracking sleep duration and how rested a crew member feels can help identify patterns."]
+};
+document.querySelectorAll("[data-part]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-part]").forEach(x=>x.classList.remove("active"));b.classList.add("active");let a=info[b.dataset.part];$("bodyInfo").innerHTML="<b>"+a[0]+"</b><br>"+a[1]});
+const topics={
+ radiation:"Space radiation can affect cells and tissues. Mission plans use radiation monitoring, exposure limits, and operational procedures. Follow mission-specific guidance from radiation and medical specialists.",
+ microgravity:"Microgravity changes the normal loading on bones and muscles and causes fluid shifts. Prescribed exercise, nutrition, and regular health checks help crews monitor these effects.",
+ isolation:"Long periods away from family, limited privacy, and demanding team environments can affect mood and well-being. Scheduled communication, routines, recreation, and confidential support can help.",
+ distance:"When far from Earth, immediate access to specialists and supplies is limited. Crew self-assessment, clear procedures, reliable records, and communication plans become especially important.",
+ environment:"A spacecraft is a closed environment where air, water, temperature, and hygiene need careful management. Environmental monitoring and reporting symptoms support crew health."
+};
+$("topic").onchange=()=>{$("topicInfo").textContent=topics[$("topic").value]};
+function points(){let n=0;for(let i=1;i<=4;i++)if($("t"+i).checked)n+=10;$("points").textContent=n;localStorage.setItem("astrocare_tasks",JSON.stringify(Array.from({length:4},(_,i)=>$("t"+(i+1)).checked)))}
+for(let i=1;i<=4;i++)$("t"+i).onchange=points;
+let savedTasks=JSON.parse(localStorage.getItem("astrocare_tasks")||"[]");savedTasks.forEach((v,i)=>$("t"+(i+1)).checked=v);points();
+$("export").onclick=()=>{if(!history.length){alert("Save at least one check-in first.");return}let keys=["date","heart","bp","glucose","temp","sleep","mood"],csv=[keys.join(","),...history.map(r=>keys.map(k=>'"'+String(r[k]).replaceAll('"','""')+'"').join(","))].join("\n"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv"})),a=document.createElement("a");a.href=url;a.download="astrocare-checkins.csv";a.click();URL.revokeObjectURL(url)};
+$("reset").onclick=()=>{if(confirm("Clear saved check-ins and restore the demo values?")){history=[];localStorage.removeItem("astrocare_history");$("heart").value=72;$("bp").value="118/76";$("glucose").value=92;$("temp").value=36.8;$("sleep").value=7.5;$("mood").value="Good";$("guidance").textContent="Demo data restored. Save a check-in to begin.";render()}};
+render();
+</script>
+</body>
+</html>
